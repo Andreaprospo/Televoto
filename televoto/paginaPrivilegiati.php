@@ -10,7 +10,7 @@ if($_SESSION["loggato"] != true;)
     exit;
 }
 
-if($_SESSION["privilegio"] != "P")
+if($_SESSION["privilegio"] != "P" || $_SESSION["privilegio"] != "P+A")
 {
     header("location: index.php?=Privilegi non conformi");
     exit;
