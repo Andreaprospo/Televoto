@@ -4,7 +4,7 @@ if(!isset($_SESSION))
     session_start();
 }
 
-if($_SESSION["loggato"] != true;)
+if($_SESSION["loggato"] != true)
 {
     header("location: index.php?=Utente non autenticato");
     exit;
