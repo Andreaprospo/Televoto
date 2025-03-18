@@ -1,3 +1,24 @@
+<?php
+if(!isset($_SESSION))
+{
+    session_start();
+}
+
+if($_SESSION["loggato"] != true;)
+{
+    header("location: index.php?=Utente non autenticato");
+    exit;
+}
+
+if($_SESSION["privilegio"] != "A" || $_SESSION["privilegio"] != "P+A" )
+{
+    header("location: index.php?=Privilegi non conformi");
+    exit;
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,5 +28,6 @@
 </head>
 <body>
     <h1>PAGINA ADMIN</h1>
+    <a href="logoutTEMP.php">logout</a>
 </body>
 </html>
