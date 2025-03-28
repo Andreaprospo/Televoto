@@ -18,11 +18,12 @@ require_once("conn.php");
     <?php
     print_r($_SESSION);
     if ($_SESSION["privilegio"] == "P" || $_SESSION["privilegio"] == "P+A") {
-        echo '<a href="paginaPrivilegiati.php">PAgina PRIVILEGIATI</a>  ';
+        echo '<a href="visualizzaStorico.php">Visualizzazione storico </a>  ';
     }
     else if ($_SESSION["privilegio"] == "A" || $_SESSION["privilegio"] == "P+A") {
-        echo '<a href="paginaAdmin.php">Pagina Admin</a>';
+        echo '<a href="collegaTerzi.php">collegamento terzi</a>';
     }
+    echo '<a href="associazione.php">Associazione proprio telecomando</a>  ';
     ?>
     <a href="logoutTEMP.php">logout</a>
 </body>
