@@ -19,9 +19,11 @@ require_once("conn.php");
     print_r($_SESSION);
     if ($_SESSION["privilegio"] == "P" || $_SESSION["privilegio"] == "P+A") {
         echo '<a href="visualizzaStorico.php">Visualizzazione storico </a>  ';
+        echo '<a href="collegaTerzi.php">collegamento terzi</a>';
     }
     else if ($_SESSION["privilegio"] == "A" || $_SESSION["privilegio"] == "P+A") {
         echo '<a href="collegaTerzi.php">collegamento terzi</a>';
+        echo '<a href="creazioneVoti.php">creazione Votazione</a>';
     }
     echo '<a href="associazione.php">Associazione proprio telecomando</a>  ';
     ?>
