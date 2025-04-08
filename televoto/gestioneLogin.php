@@ -1,5 +1,6 @@
 <?php
 require_once("conn.php");
+
 if (!isset($_SESSION)) {
     # code...
     session_start();
@@ -19,6 +20,7 @@ if ($result->num_rows == 0) {
     # code...
     echo "username o pass errati";
 } else if ($result->num_rows == 1) {
+
     $_SESSION["username"] = $user;
     $_SESSION["privilegio"] = $row["privilegio"];
     $_SESSION["loggato"] = true;

@@ -1,22 +1,19 @@
 <?php
-if(!isset($_SESSION))
-{
+if (!isset($_SESSION)) {
     session_start();
 }
 
-if($_SESSION["loggato"] != true)
-{
+if ($_SESSION["loggato"] != true) {
     header("location: index.php?=Utente non autenticato");
     exit;
 }
 
-if($_SESSION["privilegio"] != "P" || $_SESSION["privilegio"] != "P+A")
-{
+if ($_SESSION["privilegio"] != "A" || $_SESSION["privilegio"] != "P+A") {
     header("location: index.php?=Privilegi non conformi");
     exit;
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +22,10 @@ if($_SESSION["privilegio"] != "P" || $_SESSION["privilegio"] != "P+A")
     <title>Document</title>
 </head>
 <body>
-    <h1>PAGINA PRIVILEGIATI</h1>
-    <a href="logout.php">logout</a>
+    <form action="gestisciCreaCollegio.php" method="get">
+        Inserire la data in cui si vuole fare il collegio:
+        <input type="date" name="data" id="">
+        <input type="submit" value="">
+    </form>
 </body>
 </html>

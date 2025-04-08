@@ -28,6 +28,7 @@ if($_SESSION["privilegio"] != "A" || $_SESSION["privilegio"] != "P+A" )
 </head>
 <body>
     <h1>PAGINA ADMIN</h1>
-    <a href="logoutTEMP.php">logout</a>
+    <a href="logout.php">logout</a>
+    <a href="creaCollegio.php">Crea Collegio</a>
 </body>
 </html>

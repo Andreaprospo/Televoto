@@ -23,8 +23,17 @@ if ($_SESSION["privilegio"] != "A" || $_SESSION["privilegio"] != "P+A") {
 </head>
 
 <body>
-    <form action="" method="get">
-    Domanda <input type="text" name="Domanda" id="">
+    <form action="GestioneCreaVotazione.php" method="get">
+     <?
+        //da dinamicizzare
+     ?>
+
+    Domanda: <input type="text" name="Domanda" id="">
+    Risposta 1: <input type="text" name="Risposta1" id="">
+    Risposta 2: <input type="text" name="Risposta2" id="">
+    Risposta 3: <input type="text" name="Risposta3" id="">
+    Risposta 4: <input type="text" name="Risposta4" id="">
+    <input type="submit" value="">
     </form>
 </body>
 

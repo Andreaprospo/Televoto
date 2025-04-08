@@ -18,7 +18,7 @@ if (!isset($_SESSION)) {
         User: <input type="text" name="username" id="username">
         <input type="submit" value="Posta">
     </form>
-    <a href="logoutTEMP.php">logout</a>
+    <a href="logout.php">logout</a>
     <?php
     print_r($_SESSION);
     ?>
