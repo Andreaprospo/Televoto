@@ -30,5 +30,6 @@ if($_SESSION["privilegio"] != "A" || $_SESSION["privilegio"] != "P+A" )
     <h1>PAGINA ADMIN</h1>
     <a href="logout.php">logout</a>
     <a href="creaCollegio.php">Crea Collegio</a>
+    <a href="visualizzaStorico.php">Visualizza storico</a>
 </body>
 </html>

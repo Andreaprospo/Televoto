@@ -27,5 +27,6 @@ if($_SESSION["privilegio"] != "P" || $_SESSION["privilegio"] != "P+A")
 <body>
     <h1>PAGINA PRIVILEGIATI</h1>
     <a href="logout.php">logout</a>
+    <a href="visualizzaStorico.php">Visualizza storico</a>
 </body>
 </html>
