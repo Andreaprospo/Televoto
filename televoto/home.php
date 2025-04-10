@@ -9,6 +9,7 @@
         <?php
             require_once("Classi/GestoreDatabase.php");
             require_once("Classi/Utente.php");
+            require_once("Classi/Votazione.php");
 
             if(!isset($_SESSION)) {
                 session_start();
@@ -17,6 +18,8 @@
 
 
             ?>
-            HOMEEEEEEEEEEEEEEEEEEEEEEE
+
+            <button><a href="paginaCreazioneVotazione.php">Votazione</a></button>
+
     </body>
 </html>

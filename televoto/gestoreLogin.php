@@ -2,6 +2,9 @@
 
     require_once("Classi/GestoreDatabase.php");
     require_once("Classi/Utente.php");
+    require_once("Classi/Votazione.php");
+    require_once("Classi/Session.php");
+    
 
 
     if(!isset($_POST["username"], $_POST["password"]) || empty($_POST["username"]) || empty($_POST["password"])) {
@@ -43,7 +46,8 @@
             if (isset($decodedResponse['status']) && $decodedResponse['status'] === 'OK') {
 
                 $gestoreDatabase = GestoreDatabase::getInstance();
-                $_SESSION["utenteCorrente"] = $gestoreDatabase->getUtente($username);
+                $sessione = Session::getInstance();
+                $sessione->setUtenteCorrente($gestoreDatabase->getUtente($username));
                 header("Location:home.php?messaggio=Login riuscito");
             } else {
                 header("location:index.php?messaggio=" . ($decodedResponse['message'] ?? "Login fallito"));

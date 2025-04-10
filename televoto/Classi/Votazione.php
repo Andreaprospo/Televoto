@@ -21,5 +21,18 @@
                 $vettoreInfo["IDcollegio"]
             );
         }
+
+        public function getIdVotazione()
+        {
+            return $this->idVotazione;
+        }
+        public function getDomanda()
+        {
+            return $this->domanda;
+        }
+        public function getIdCollegio()
+        {
+            return $this->idCollegio;
+        }
     }
 ?>

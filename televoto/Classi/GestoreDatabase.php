@@ -48,24 +48,25 @@ class GestoreDatabase {
     }
 
 
-    public function getVotazioni($idUtente) {
-        $stmt = $this->conn->prepare("SELECT * FROM votazioni WHERE idUtente = ?");
-        $stmt->bind_param("i", $idUtente);
+    public function getVotazione($idVotazione) {
+        $stmt = $this->conn->prepare("SELECT * FROM votazioni WHERE idVotazione = ?");
+        $stmt->bind_param("i", $idVotazione);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result->fetch_assoc();
     }
 
-    public function createVotazione($domanda, $idVotazione) 
+    public function createVotazione($domanda, $idCollegio) 
     {
         $stmt = $this->conn->prepare("INSERT INTO votazioni (domanda,IDcollegio) VALUES (?, ?)");
-        $stmt->bind_param("si", $domanda, $idVotazione);
-        return $stmt->execute();
-    }
+        $stmt->bind_param("si", $domanda, $idCollegio);
+        $stmt->execute();
+        return $this->conn->insert_id;
+    }   
 
     public function addVoto($idUtenteVotante, $idVotazione) 
     {
-        $stmt = $this->conn->prepare("INSERT INTO voti (IDutenteVotante, IDvotazione) VALUES (?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO partecipazioni (IDutenteVotante, IDvotazione) VALUES (?, ?)");
         $stmt->bind_param("ii", $idUtenteVotante, $idVotazione);
         return $stmt->execute();
     }
@@ -82,6 +83,34 @@ class GestoreDatabase {
             $votazioni[] = Votazione::parse($row);
         }
         return $votazioni;
+    }
+
+    public function createRiposta($risposta, $idVotazione)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO risposte (risposta,IDvotazione) VALUES (?, ?)");
+        $stmt->bind_param("si", $risposta, $idVotazione);
+        return $stmt->execute();
+    }
+
+    public function changeNumVoti($idVotazione, $numeroRisposta) {
+        $numeroRispostaAdattato = $numeroRisposta - 1;
+        $stmt = $this->conn->prepare("
+            UPDATE risposte
+            SET numeroVoti = numeroVoti + 1
+            WHERE idrisposta = (
+                SELECT idrisposta FROM (
+                    SELECT idrisposta
+                    FROM risposte
+                    WHERE idvotazione = ?
+                    ORDER BY idrisposta ASC
+                    LIMIT 1 OFFSET ?
+                ) AS t
+            );
+
+        
+        ");
+        $stmt->bind_param("ii", $idVotazione, $numeroRispostaAdattato);
+        return $stmt->execute();
     }
     // creazioenVotazione
     // getVotazione

@@ -5,7 +5,5 @@
 
     $conn = GestoreDatabase::getInstance();
 
-    $co
 
-    
 ?>
