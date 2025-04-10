@@ -1,23 +1,19 @@
 <?php
-if (!isset($_GET["id"])) {
-    header("location: visualizzaStorico.php?messaggio=cliccare sul nome di una votazione per visualizzarne i dettagli");
-    exit();
-}
+require_once("Classi/GestoreDatabase.php");
+require_once("Classi/Utente.php");
 
 if(!isset($_SESSION)){
     session_start();
 }
 
-require_once("Classi/Session.php");
 
-if(Session::getInstance()->getUtenteCorrente()===null){
-    header("location: index.php?error=devi fare il login");
+if(!isset($_SESSION["utenteCorrente"])){
+    header("location: login.php?error=devi fare il login");
 }
-if(Session::getInstance()->getUtenteCorrente()->getPrivilegio() !=="P" && Session::getInstance()->getUtenteCorrente()->getPrivilegio()!=="A+P"){
+if($_SESSION["utenteCorrente"]->getPrivilegio()!=="P" && $_SESSION["utenteCorrente"]->getPrivilegio()!=="P+A"){
     header("location: home.php?error=non hai i privilegi per accedere a questa pagina");
 }
 
-require_once("Classi/GestoreDatabase.php");
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -49,7 +45,15 @@ require_once("Classi/GestoreDatabase.php");
     <a href="visualizzaStorico.php">torna allo storico</a>
 
     <?php
-    $votazione = GestoreDatabase::getInstance()->getVotazione($_GET["id"]);
+    $id = null;
+    if (!isset($_GET["id"])) {
+        $id = $_SESSION["votazioneCorrente"]->getIdVotazione();
+    }else {
+        $id = $_GET["id"];
+    }
+
+
+    $votazione = GestoreDatabase::getInstance()->getVotazione($id);
     $risposte = GestoreDatabase::getInstance()->getRisposteForDomanda($votazione->getIdVotazione());
 
     echo '<h2>Informazioni</h2>';

@@ -1,21 +1,22 @@
 <?php
+require_once("Classi/Utente.php");
+require_once("Classi/GestoreDatabase.php");
 if(!isset($_SESSION)){
     session_start();
 }
 
-require_once("Classi/Session.php");
 
-if(Session::getInstance()->getUtenteCorrente()===null){
-    header("location: index.php?messaggio=devi fare il login");
+if(!isset($_SESSION["utenteCorrente"])){
+    header("location: login.php?error=devi fare il login");
 }
-if(Session::getInstance()->getUtenteCorrente()->getPrivilegio() !=="P" && Session::getInstance()->getUtenteCorrente()->getPrivilegio()!=="A+P"){
-    header("location: home.php?messaggio=non hai i privilegi per accedere a questa pagina");
+if($_SESSION["utenteCorrente"]->getPrivilegio()!=="P" && $_SESSION["utenteCorrente"]->getPrivilegio()!=="P+A"){
+    header("location: home.php?error=non hai i privilegi per accedere a questa pagina");
 }
 if(isset($_GET["messaggio"])){
     echo "<h1>".$_GET['messaggio']."</h1>";
 }
 
-require_once("Classi/GestoreDatabase.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

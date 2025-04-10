@@ -1,13 +1,17 @@
 <?php
+require_once("Classi/Utente.php");
 if(!isset($_SESSION)){
     session_start();
 }
 
-require_once("Classi/Session.php");
-
-if(Session::getInstance()->getUtenteCorrente()===null){
-    header("location: index.php?messaggio=devi fare il login");
+if(isset($_GET["messaggio"])){
+    echo "<h1>".$_GET['messaggio']."</h1>";
 }
+
+if(!isset($_SESSION["utenteCorrente"])){
+    header("location: index.php?message=devi fare il login");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -24,10 +28,10 @@ if(Session::getInstance()->getUtenteCorrente()===null){
 
     //controllo se l'utente è admin o privilegiato
 
-    $isAdmin = true;
-    $isPrivilegiato = true;
+    $isAdmin = false;
+    $isPrivilegiato = false;
     
-    if($_SESSION["utenteCorrente"]->getPrivilegio()==="A+P"){
+    if($_SESSION["utenteCorrente"]->getPrivilegio()==="P+A"){
         $isAdmin = true;
         $isPrivilegiato = true;
     }
@@ -42,7 +46,7 @@ if(Session::getInstance()->getUtenteCorrente()===null){
 
     <?php
 
-    echo "<a href='votazione.php'>Vai a pag Votazione</a>";
+    echo "<a href='dettagliVotazione.php'>Vai a pag Votazione</a>";
     echo "<br><br>";
 
     echo "<a href='collegamento.php'>Collega Telecomando</a>";
@@ -50,11 +54,11 @@ if(Session::getInstance()->getUtenteCorrente()===null){
 
 
     if($isAdmin){
-        echo "<a href='admin.php'>Vai a pag Admin</a>";
+        echo "<a href='creazioneVotazione.php'>Vai a pag Admin</a>";
         echo "<br><br>";
     }
     if($isPrivilegiato){
-        echo "<a href='privilegiato.php'>Vai a pag Privilegiato</a>";
+        echo "<a href='visualizzaStorico.php'>Vai a pag Privilegiato</a>";
         echo "<br><br>";
     }
     

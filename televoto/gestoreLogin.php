@@ -1,10 +1,11 @@
 <?php
+require_once("Classi/GestoreDatabase.php");
+require_once("Classi/Utente.php");
+require_once("Classi/Votazione.php");
 
-    require_once("Classi/GestoreDatabase.php");
-    require_once("Classi/Utente.php");
-    require_once("Classi/Votazione.php");
-    require_once("Classi/Session.php");
-    
+    if(!isset($_SESSION)) {
+        session_start();
+    }
 
 
     if(!isset($_POST["username"], $_POST["password"]) || empty($_POST["username"]) || empty($_POST["password"])) {
@@ -13,9 +14,6 @@
         exit();
     }
 
-    if(!isset($_SESSION)) {
-        session_start();
-    }
 
     $username = $_POST["username"];
     $password = $_POST["password"];
@@ -46,9 +44,8 @@
             if (isset($decodedResponse['status']) && $decodedResponse['status'] === 'OK') {
 
                 $gestoreDatabase = GestoreDatabase::getInstance();
-                $utente = $gestoreDatabase->getUtente($username);
-                Session::getInstance()->setUtenteCorrente($gestoreDatabase->getUtente($username));
-                header("Location:home.php?messaggio=".Session::getInstance()->getUtenteCorrente()->getUsername());
+                $_SESSION["utenteCorrente"] = $gestoreDatabase->getUtente($username);
+                header("Location:home.php?messaggio=Login effettuato con successo");
             } else {
                 header("location:index.php?messaggio=" . ($decodedResponse['message'] ?? "Login fallito"));
                 echo "Errore: " . ($decodedResponse['message'] ?? "Risposta sconosciuta");

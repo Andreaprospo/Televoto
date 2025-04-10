@@ -1,7 +1,9 @@
 <?php
-
-    require_once ("Classi/Utente.php");
-    require_once ("Classi/Votazione.php");
+require_once ("Classi/Utente.php");
+require_once ("Classi/Votazione.php");
+if(!isset($_SESSION)) {
+    session_start();
+}
 class GestoreDatabase {
     
     private static $instance = null;
