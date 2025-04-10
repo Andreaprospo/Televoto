@@ -56,21 +56,33 @@ class GestoreDatabase {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function createVotazione($idUtente, $titolo, $dataInizio, $dataFine) 
+    public function createVotazione($domanda, $idVotazione) 
     {
-        $stmt = $this->conn->prepare("INSERT INTO votazioni (idUtente, titolo, dataInizio, dataFine) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("isss", $idUtente, $titolo, $dataInizio, $dataFine);
+        $stmt = $this->conn->prepare("INSERT INTO votazioni (domanda,IDcollegio) VALUES (?, ?)");
+        $stmt->bind_param("si", $domanda, $idVotazione);
         return $stmt->execute();
     }
 
-    public function addVoto($idVotazione, $voto) 
+    public function addVoto($idUtenteVotante, $idVotazione) 
     {
-        $stmt = $this->conn->prepare("INSERT INTO voti (idVotazione, voto) VALUES (?, ?)");
-        $stmt->bind_param("iis", $idVotazione, $voto);
+        $stmt = $this->conn->prepare("INSERT INTO voti (IDutenteVotante, IDvotazione) VALUES (?, ?)");
+        $stmt->bind_param("ii", $idUtenteVotante, $idVotazione);
         return $stmt->execute();
     }
 
 
+    public function getAllVotazioneFromCollegio($idCollegio)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM votazioni WHERE idCollegio = ?");
+        $stmt->bind_param("i", $idCollegio);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $votazioni = [];
+        while ($row = $result->fetch_assoc()) {
+            $votazioni[] = Votazione::parse($row);
+        }
+        return $votazioni;
+    }
     // creazioenVotazione
     // getVotazione
     // addVoto
