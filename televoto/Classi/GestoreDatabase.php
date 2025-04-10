@@ -1,6 +1,7 @@
 <?php
 
     require_once ("Classi/Utente.php");
+    require_once ("Classi/Votazione.php");
 class GestoreDatabase {
     
     private static $instance = null;
@@ -53,7 +54,7 @@ class GestoreDatabase {
         $stmt->bind_param("i", $idVotazione);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        return Votazione::parse($result->fetch_assoc());
     }
 
     public function createVotazione($domanda, $idCollegio) 
@@ -72,7 +73,7 @@ class GestoreDatabase {
     }
 
 
-    public function getAllVotazioneFromCollegio($idCollegio)
+    public function getAllVotazioniFromCollegio($idCollegio)
     {
         $stmt = $this->conn->prepare("SELECT * FROM votazioni WHERE idCollegio = ?");
         $stmt->bind_param("i", $idCollegio);
@@ -84,6 +85,19 @@ class GestoreDatabase {
         }
         return $votazioni;
     }
+    public function getRisposteForDomanda($idVotazione)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM risposte WHERE idVotazione = ?");
+        $stmt->bind_param("i", $idVotazione);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $risposte = [];
+        while ($row = $result->fetch_assoc()) {
+            $risposte[] = $row;
+        }
+        return $risposte;
+    }
+
 
     public function createRiposta($risposta, $idVotazione)
     {
@@ -112,11 +126,5 @@ class GestoreDatabase {
         $stmt->bind_param("ii", $idVotazione, $numeroRispostaAdattato);
         return $stmt->execute();
     }
-    // creazioenVotazione
-    // getVotazione
-    // addVoto
-
-
-
-    // cercaVotazione
+    
 }

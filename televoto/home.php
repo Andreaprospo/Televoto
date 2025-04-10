@@ -1,25 +1,68 @@
+<?php
+if(!isset($_SESSION)){
+    session_start();
+}
+
+require_once("Classi/Session.php");
+
+if(Session::getInstance()->getUtenteCorrente()===null){
+    header("location: index.php?messaggio=devi fare il login");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <?php
-            require_once("Classi/GestoreDatabase.php");
-            require_once("Classi/Utente.php");
-            require_once("Classi/Votazione.php");
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Benvenuto</h1>
 
-            if(!isset($_SESSION)) {
-                session_start();
-            }
-            print_r($_SESSION);
+    <?php
+
+    //controllo se l'utente è admin o privilegiato
+
+    $isAdmin = true;
+    $isPrivilegiato = true;
+    
+    if($_SESSION["utenteCorrente"]->getPrivilegio()==="A+P"){
+        $isAdmin = true;
+        $isPrivilegiato = true;
+    }
+    if($_SESSION["utenteCorrente"]->getPrivilegio()==="A"){
+        $isAdmin = true;
+    }
+    if($_SESSION["utenteCorrente"]->getPrivilegio()==="P"){
+        $isPrivilegiato = true;
+    }
+    ?>
 
 
-            ?>
+    <?php
 
-            <button><a href="paginaCreazioneVotazione.php">Votazione</a></button>
+    echo "<a href='votazione.php'>Vai a pag Votazione</a>";
+    echo "<br><br>";
 
-    </body>
+    echo "<a href='collegamento.php'>Collega Telecomando</a>";
+    echo "<br><br>";
+
+
+    if($isAdmin){
+        echo "<a href='admin.php'>Vai a pag Admin</a>";
+        echo "<br><br>";
+    }
+    if($isPrivilegiato){
+        echo "<a href='privilegiato.php'>Vai a pag Privilegiato</a>";
+        echo "<br><br>";
+    }
+    
+    
+    ?>
+
+    <a href="logout.php">fai logout</a>
+
+
+</body>
 </html>

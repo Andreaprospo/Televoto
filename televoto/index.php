@@ -1,3 +1,10 @@
+<?php
+if(isset($_GET["messaggio"])){
+    echo "<h1>".$_GET['messaggio']."</h1>";
+}
+
+
+?>
 <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -10,12 +17,12 @@
             <div>
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
-            </div>
+</div>
             <div>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button>Manda</button>
+            <button>Fai login</button>
         </form>
     </body>
 </html>

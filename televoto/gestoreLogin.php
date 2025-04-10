@@ -46,9 +46,9 @@
             if (isset($decodedResponse['status']) && $decodedResponse['status'] === 'OK') {
 
                 $gestoreDatabase = GestoreDatabase::getInstance();
-                $sessione = Session::getInstance();
-                $sessione->setUtenteCorrente($gestoreDatabase->getUtente($username));
-                header("Location:home.php?messaggio=Login riuscito");
+                $utente = $gestoreDatabase->getUtente($username);
+                Session::getInstance()->setUtenteCorrente($gestoreDatabase->getUtente($username));
+                header("Location:home.php?messaggio=".Session::getInstance()->getUtenteCorrente()->getUsername());
             } else {
                 header("location:index.php?messaggio=" . ($decodedResponse['message'] ?? "Login fallito"));
                 echo "Errore: " . ($decodedResponse['message'] ?? "Risposta sconosciuta");
