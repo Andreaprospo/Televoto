@@ -1,0 +1,155 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variabili per tonalità di blu */
+:root {
+    --primary-dark: #0a2463;    /* Blu scuro */
+    --primary: #1e3a8a;         /* Blu principale */
+    --primary-light: #3b82f6;   /* Blu chiaro */
+    --accent: #38bdf8;          /* Blu cielo / accent */
+    --dark: #1e293b;            /* Blu quasi nero */
+    --light: #f1f5f9;           /* Grigio chiaro */
+    --white: #ffffff;           /* Bianco */
+    --shadow: rgba(10, 36, 99, 0.15); /* Ombra blu */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--light);
+    color: var(--dark);
+    line-height: 1.6;
+}
+
+/* Contenitori */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.card {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-accent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary-light) 0%, var(--accent) 100%);
+}
+
+/* Titoli e testo */
+
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-family: inherit;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Bottoni */
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 4px;
+    transition: all 0.25s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+
+/* Varianti di bottoni */
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+    box-shadow: 0 4px 6px rgba(30, 58, 138, 0.25);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(30, 58, 138, 0.3);
+}
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .header-content {
+        flex-direction: column;
+    }
+
+    .nav {
+        margin-top: 1rem;
+        justify-content: center;
+    }
+
+    .nav-item {
+        margin: 0 0.75rem;
+    }
+}
