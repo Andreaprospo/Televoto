@@ -1,9 +1,5 @@
 <?php
-require_once ("Classi/Utente.php");
-require_once ("Classi/Votazione.php");
-if(!isset($_SESSION)) {
-    session_start();
-}
+
 class GestoreDatabase {
     
     private static $instance = null;
@@ -67,11 +63,22 @@ class GestoreDatabase {
         return $this->conn->insert_id;
     }   
 
-    public function addVoto($idUtenteVotante, $idVotazione) 
+    public function addVoto($idUtenteVotante) 
     {
+        //andiamo a prendere l'utilma votazione creata in modo da non doverla passare come parametro
+        $idVotazione = $this->getLastIdVotazione();
         $stmt = $this->conn->prepare("INSERT INTO partecipazioni (IDutenteVotante, IDvotazione) VALUES (?, ?)");
         $stmt->bind_param("ii", $idUtenteVotante, $idVotazione);
         return $stmt->execute();
+    }
+
+    public function getLastIdVotazione() 
+    {
+        $stmt = $this->conn->prepare("SELECT idVotazione FROM votazioni ORDER BY idVotazione DESC LIMIT 1");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['idVotazione'];
     }
 
 
@@ -108,7 +115,9 @@ class GestoreDatabase {
         return $stmt->execute();
     }
 
-    public function changeNumVoti($idVotazione, $numeroRisposta) {
+    public function changeNumVoti($numeroRisposta) {
+        //andiamo a prendere l'ultima votazione creata in modo da non doverla passare come parametro
+        $idVotazione = $this->getLastIdVotazione();        
         $numeroRispostaAdattato = $numeroRisposta - 1;
         $stmt = $this->conn->prepare("
             UPDATE risposte
@@ -128,5 +137,30 @@ class GestoreDatabase {
         $stmt->bind_param("ii", $idVotazione, $numeroRispostaAdattato);
         return $stmt->execute();
     }
+
+    public function getIdVotanteByMac($mac) {
+        $query = "SELECT idVotante FROM assegnazioni WHERE mac = ?";
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Errore nella preparazione della query: " . $this->conn->error);
+        }
     
+        $stmt->bind_param("s", $mac);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($row = $result->fetch_assoc()) {
+            return $row['idVotante'];
+        } else {
+            return null; // MAC non trovato
+        }
+    }
+    
+    function creaCollegamento($idTelecomando, $idVotante) {
+        
+        $stmt = $this->conn->prepare("UPDATE assegnazioni SET idVotante = ? WHERE idTelecomando = ?");
+        $stmt->bind_param("is", $idVotante, $idTelecomando);
+        return $stmt->execute();
+    }
 }
+

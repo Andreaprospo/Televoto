@@ -1,9 +1,9 @@
 <?php
 
     class Utente {
-        private $id;
-        private $username;
-        private $privilegio;
+        public $id;
+        public $username;
+        public $privilegio;
 
         public function __construct($id, $username, $privilegio) {
             $this->id = $id;    

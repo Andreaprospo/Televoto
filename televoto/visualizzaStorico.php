@@ -7,10 +7,10 @@ if(!isset($_SESSION)){
 
 
 if(!isset($_SESSION["utenteCorrente"])){
-    header("location: login.php?error=devi fare il login");
+    header("location: login.php?messaggio=devi fare il login");
 }
 if($_SESSION["utenteCorrente"]->getPrivilegio()!=="P" && $_SESSION["utenteCorrente"]->getPrivilegio()!=="P+A"){
-    header("location: home.php?error=non hai i privilegi per accedere a questa pagina");
+    header("location: home.php?messaggio=non hai i privilegi per accedere a questa pagina");
 }
 if(isset($_GET["messaggio"])){
     echo "<h1>".$_GET['messaggio']."</h1>";

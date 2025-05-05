@@ -1,72 +1,67 @@
 <?php
 require_once("Classi/Utente.php");
-if(!isset($_SESSION)){
+if (!isset($_SESSION)) {
     session_start();
 }
 
-if(isset($_GET["messaggio"])){
-    echo "<h1>".$_GET['messaggio']."</h1>";
+if (!isset($_SESSION["utenteCorrente"])) {
+    header("location: index.php?message=devi fare il login");
+    exit;
 }
 
-if(!isset($_SESSION["utenteCorrente"])){
-    header("location: index.php?message=devi fare il login");
-}
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Area Riservata</title>
+    <link rel="stylesheet" href="CSS/styleHome.css">
 </head>
 <body>
-    <h1>Benvenuto</h1>
 
-    <?php
+    <div class="card">
+        <h1>Benvenuto</h1>
 
-    //controllo se l'utente è admin o privilegiato
+        <?php 
+            if (isset($_GET["messaggio"]))
+            {
+                echo '<div class="message-box">';
+                echo htmlspecialchars($_GET["messaggio"]);
+                echo "</div>";
+            }
+        ?>
+        <?php
+        $isAdmin = false;
+        $isPrivilegiato = false;
 
-    $isAdmin = false;
-    $isPrivilegiato = false;
-    
-    if($_SESSION["utenteCorrente"]->getPrivilegio()==="P+A"){
-        $isAdmin = true;
-        $isPrivilegiato = true;
-    }
-    if($_SESSION["utenteCorrente"]->getPrivilegio()==="A"){
-        $isAdmin = true;
-    }
-    if($_SESSION["utenteCorrente"]->getPrivilegio()==="P"){
-        $isPrivilegiato = true;
-    }
-    ?>
+        $privilegio = $_SESSION["utenteCorrente"]->getPrivilegio();
+        if ($privilegio === "P+A") {
+            $isAdmin = $isPrivilegiato = true;
+        } elseif ($privilegio === "A") {
+            $isAdmin = true;
+        } elseif ($privilegio === "P") {
+            $isPrivilegiato = true;
+        }
+        ?>
 
+        <div class="button-group">
+            <a href="dettagliVotazione.php" class="button">Pagina Votazione</a>
+            <a href="collegamento.php" class="button">Collega Telecomando</a>
 
-    <?php
+            <?php if ($isAdmin): ?>
+                <a href="creazioneVotazione.php" class="button">Amministrazione</a>
+            <?php endif; ?>
 
-    echo "<a href='dettagliVotazione.php'>Vai a pag Votazione</a>";
-    echo "<br><br>";
+            <?php if ($isPrivilegiato): ?>
+                <a href="visualizzaStorico.php" class="button">Storico Privilegiato</a>
+            <?php endif; ?>
+        </div>
 
-    echo "<a href='collegamento.php'>Collega Telecomando</a>";
-    echo "<br><br>";
-
-
-    if($isAdmin){
-        echo "<a href='creazioneVotazione.php'>Vai a pag Admin</a>";
-        echo "<br><br>";
-    }
-    if($isPrivilegiato){
-        echo "<a href='visualizzaStorico.php'>Vai a pag Privilegiato</a>";
-        echo "<br><br>";
-    }
-    
-    
-    ?>
-
-    <a href="logout.php">fai logout</a>
-
+        <a href="logout.php" class="button logout">Logout</a>
+    </div>
 
 </body>
 </html>

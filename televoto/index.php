@@ -13,7 +13,6 @@ if (isset($_GET["messaggio"])) {
     <title>Accesso Utente</title>
     <link rel="stylesheet" href="CSS/style.css">
 </head>
-
 <body>
     <div class="container " style="min-height: 100vh; align-items: center; justify-content: center; display: flex;">
         <div class="card card-accent " style="max-width: 400px;">

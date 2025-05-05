@@ -8,10 +8,12 @@ if(!isset($_SESSION)){
 
 
 if(!isset($_SESSION["utenteCorrente"])){
-    header("location: login.php?error=devi fare il login");
+    header("location: login.php?messaggio=Errore: login non effettuato");
+    exit;
 }
 if($_SESSION["utenteCorrente"]->getPrivilegio()!=="P" && $_SESSION["utenteCorrente"]->getPrivilegio()!=="P+A"){
-    header("location: home.php?error=non hai i privilegi per accedere a questa pagina");
+    header("location: home.php?messaggio=Privilegi non sufficienti per accedere a questa pagina");
+    exit;
 }
 
 ?>
