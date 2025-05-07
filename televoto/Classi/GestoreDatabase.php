@@ -108,7 +108,7 @@ class GestoreDatabase {
     }
 
 
-    public function createRiposta($risposta, $idVotazione)
+    public function createRisposta($risposta, $idVotazione)
     {
         $stmt = $this->conn->prepare("INSERT INTO risposte (risposta,IDvotazione) VALUES (?, ?)");
         $stmt->bind_param("si", $risposta, $idVotazione);
@@ -161,6 +161,21 @@ class GestoreDatabase {
         $stmt = $this->conn->prepare("UPDATE assegnazioni SET idVotante = ? WHERE idTelecomando = ?");
         $stmt->bind_param("is", $idVotante, $idTelecomando);
         return $stmt->execute();
+    }
+
+    function createNewCollegio($idUtenteCreatore) {
+        $dataCollegio = date("Y-m-d");   
+        $stmt = $this->conn->prepare("INSERT INTO collegi (data, IDutenteAdmin) VALUES (?,?)");
+        $stmt->bind_param("si", $dataCollegio, $idUtenteCreatore);
+        return $stmt->execute();
+    }
+
+    function getLastCollegio() {
+        $stmt = $this->conn->prepare("SELECT idCollegio FROM collegi ORDER BY idCollegio DESC LIMIT 1");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['idCollegio']; 
     }
 }
 

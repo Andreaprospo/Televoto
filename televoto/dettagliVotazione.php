@@ -1,6 +1,7 @@
 <?php
 require_once("Classi/GestoreDatabase.php");
 require_once("Classi/Utente.php");
+require_once("Classi/Votazione.php");
 
 if(!isset($_SESSION)){
     session_start();
@@ -23,22 +24,9 @@ if($_SESSION["utenteCorrente"]->getPrivilegio()!=="P" && $_SESSION["utenteCorren
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/styleDettagliVotazione.css">
     <title>Dettagli Votazione</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .grafici-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin: 30px 0;
-        }
-
-        canvas {
-            max-width: 400px;
-            max-height: 400px;
-        }
-    </style>
 </head>
 
 <body>

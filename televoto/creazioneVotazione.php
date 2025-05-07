@@ -1,15 +1,15 @@
 <?php
-require_once("Classi/Utente.php");
-if(!isset($_SESSION)){
-    session_start();
-}
+    require_once("Classi/Utente.php");
+    if(!isset($_SESSION)){
+        session_start();
+    }
 
-if(!isset($_SESSION["utenteCorrente"])){
-    header("location: login.php?messaggio=devi fare il login");
-}
-if($_SESSION["utenteCorrente"]->getPrivilegio()!=="A" && $_SESSION["utenteCorrente"]->getPrivilegio()!=="P+A"){
-    header("location: home.php?messaggio=non hai i privilegi per accedere a questa pagina");
-}
+    if(!isset($_SESSION["utenteCorrente"])){
+        header("location: login.php?messaggio=devi fare il login");
+    }
+    if($_SESSION["utenteCorrente"]->getPrivilegio()!=="A" && $_SESSION["utenteCorrente"]->getPrivilegio()!=="P+A"){
+        header("location: home.php?messaggio=non hai i privilegi per accedere a questa pagina");
+    }
 
 ?>
 <!DOCTYPE html>
@@ -17,21 +17,68 @@ if($_SESSION["utenteCorrente"]->getPrivilegio()!=="A" && $_SESSION["utenteCorren
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="CSS/styleCreazioneVotazione.css">
         <title>Document</title>
     </head>
     <body>
-        <form action="gestoreCreazioneVotazione.php" method="POST">
-            <label for="domanda">Domanda:</label><br>
-            <input type="text" id="domanda" name="domanda"><br>
-            <label for="risposta1">Risposta1: </label>
-            <input type="text" id="risposta1" name="risposta1"><br>
-            <label for="risposta2">Risposta2: </label>
-            <input type="text" id="risposta2" name="risposta2"><br>
-            <label for="risposta3">Risposta3: </label>
-            <input type="text" id="risposta3" name="risposta3"><br>
-            <label for="risposta4">Risposta4: </label>
-            <input type="text" id="risposta4" name="risposta4"><br>
-            <button>Crea domanda</button>
+        <button onclick="apriNuovoCollegio()">Crea nuovo collegio</button>
+        <form action="gestoreCreazioneVotazione.php" method="GET">
+            <div id = "superDiv">
+            </div>
+            <button>Conferma creazione votazione</button>
         </form>
     </body>
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let superDiv = document.getElementById("superDiv");
+        let div = document.createElement("div");
+        let label = document.createElement("label");
+        label.setAttribute("for", "domanda");
+        label.innerHTML = "Domanda: ";
+        let input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("name", "domanda");
+        input.setAttribute("id", "domanda");
+        input.setAttribute("placeholder", "Inserisci la domanda qui");
+        div.appendChild(label);
+        div.appendChild(input);
+        superDiv.appendChild(div);
+        for(let i = 0; i < 4; i++)
+        {
+            let sottoDiv = document.createElement("div");
+            let label = document.createElement("label");
+            let input = document.createElement("input");
+            input.setAttribute("type", "text");
+            input.setAttribute("name", "risposta" + i);
+            input.setAttribute("id", "risposta" + i);
+            input.setAttribute("placeholder", "Risposta " + (i+1));
+            label.setAttribute("for", "risposta" + i);
+            label.innerHTML = "Risposta " + (i+1) + ": ";
+            sottoDiv.appendChild(label);
+            sottoDiv.appendChild(input);
+            superDiv.appendChild(sottoDiv);
+        }
+
+    });
+
+    async function apriNuovoCollegio() {
+        let url = "ajax/creazioneCollegio.php";
+        let response = await fetch(url);
+        let txt = await response.text();
+        console.log(txt);
+        let data = JSON.parse(txt);
+        console.log(data);
+
+        if(data.msg === "OK"){
+            let collegio = data.collegio;
+            let collegioDiv = document.createElement("div");
+            collegioDiv.setAttribute("id", "collegio" + collegio.idCollegio);
+            collegioDiv.innerHTML = collegio.nomeCollegio + " " + collegio.idCollegio;
+            let superDiv = document.getElementById("superDiv");
+            superDiv.appendChild(collegioDiv);
+        } else {
+            alert("Errore: " + data.messaggio);
+        }
+    }
+</script>

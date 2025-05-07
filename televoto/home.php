@@ -52,7 +52,7 @@ if (!isset($_SESSION["utenteCorrente"])) {
             <a href="collegamento.php" class="button">Collega Telecomando</a>
 
             <?php if ($isAdmin): ?>
-                <a href="creazioneVotazione.php" class="button">Amministrazione</a>
+                <a href="creazioneVotazione.php" class="button">Crea votazione</a>
             <?php endif; ?>
 
             <?php if ($isPrivilegiato): ?>

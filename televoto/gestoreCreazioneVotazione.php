@@ -1,50 +1,54 @@
 <?php
-require_once("Classi/GestoreDatabase.php");
-require_once("Classi/Utente.php");
-require_once("Classi/Votazione.php");
-if (!isset($_SESSION)) {
-    session_start();
-}
+    require_once("Classi/GestoreDatabase.php");
+    require_once("Classi/Utente.php");
+    require_once("Classi/Votazione.php");
 
-if(!isset($_SESSION["utenteCorrente"])){
-    header("location: login.php?error=devi fare il login");
-}
-if($_SESSION["utenteCorrente"]->getPrivilegio()!=="A" && $_SESSION["utenteCorrente"]->getPrivilegio()!=="P+A"){
-    header("location: home.php?error=non hai i privilegi per accedere a questa pagina");
-}
-
-
-if (!isset($_POST["domanda"]) || empty($_POST["domanda"])) {
-    echo "Errore: uno o più campi sono vuoti.";
-    exit;
-}
-
-$risposte = [];
-for ($i = 0; $i <= 4; $i++) {
-    if (!isset($_POST["risposta" . $i]) || empty($_POST["risposta" . $i])) {
-        continue;
+    if (!isset($_SESSION)) {
+        session_start();
     }
-    $risposte[] = $_POST["risposta" . $i];
-}
 
+    if(!isset($_SESSION["utenteCorrente"]))
+    {
+        header("location: login.php?error=devi fare il login");
+        exit;
+    }
 
-if (sizeof($risposte) < 2) {
-    header("location:creazioneVotazione.php?error=risposteInsufficienti");
-    exit;
-}
+    if($_SESSION["utenteCorrente"]->getPrivilegio()!=="A" && $_SESSION["utenteCorrente"]->getPrivilegio()!=="P+A")
+    {
+        header("location: home.php?error=non hai i privilegi per accedere a questa pagina");
+        exit;
+    }
 
-if (!isset($_SESSION)) {
-    session_start();
-}
+    if (!isset($_GET["domanda"]) || empty($_GET["domanda"])) {
+        echo "Errore: uno o più campi sono vuoti.";
+        exit;
+    }
+    
+    $gestoreDatabase = GestoreDatabase::getInstance();
+    $domanda = $_GET["domanda"];
+    $idCollegio = $gestoreDatabase->getLastCollegio();
+    $risposte = [];
 
-$conn = GestoreDatabase::getInstance();
+    for ($i = 0; $i <= 4; $i++) {
+        if (!isset($_GET["risposta" . $i]) || empty($_GET["risposta" . $i])) {
+            continue;
+        }
+        $risposte[] = $_GET["risposta" . $i];
+    }
 
-$domanda = $_POST["domanda"];
-//$collegioCorrente = $_SESSION["collegioCorrente"];
-$idCollegio = 1;
+    if (sizeof($risposte) < 2) {
+        header("location:creazioneVotazione.php?error=risposteInsufficienti");
+        exit;
+    }
+    else
+    {
+        $idVotazione = $gestoreDatabase->createVotazione($domanda, $idCollegio);
+        $_SESSION["votazioneCorrente"] = $gestoreDatabase->getVotazione($idVotazione);
+        foreach ($risposte as $risposta) {
+            $gestoreDatabase->createRisposta($risposta, $idVotazione);
+        }
+        header("location: home.php?messaggio=Votazione creata con successo");
+        exit;
+    }
 
-$idVotazione = $conn->createVotazione($domanda, $idCollegio);
-
-$_SESSION["votazioneCorrente"] = $conn->getVotazione($idVotazione);
-
-header("location: home.php?messaggio=Votazione creata con successo");
+?>
