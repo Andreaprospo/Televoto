@@ -34,6 +34,7 @@ if ($idVotazione == null) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Nessuna votazione</title>
         <link rel="stylesheet" href="CSS/styleDettagliVotazione.css">
+        <link rel="icon" type="image/png" href="icona.png">
     </head>
     <body>
         <div class="errore-box">
