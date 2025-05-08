@@ -48,44 +48,47 @@ if ($privilegio !== "P" && $privilegio !== "P+A") {
 
     if ($collegi && count($collegi) > 0) {
         // Ciclo per ogni collegio
-        foreach ($collegi as $collegio) {
+        // Ciclo per ogni collegio dall'ultimo al primo
+        for ($i = count($collegi) - 1; $i >= 0; $i--) {
+            $collegio = $collegi[$i];
             echo '<h2>ID collegio: ' . htmlspecialchars($collegio['IDcollegio']) . ' ---- Data: ' . htmlspecialchars($collegio['data']) . '</h2>';
 
             // Recupera tutte le votazioni per il collegio corrente
             $votazioni = $gestoreDatabase->getAllVotazioniFromCollegio($collegio['IDcollegio']);
 
             if ($votazioni && count($votazioni) > 0) {
-                echo '<table>';
-                echo '<tr><th>ID Votazione</th><th>Domanda</th><th>Risposte</th><th>Numero Voti</th></tr>';
+            echo '<table>';
+            echo '<tr><th>ID Votazione</th><th>Domanda</th><th>Risposte</th><th>Numero Voti</th></tr>';
 
-                foreach ($votazioni as $votazione) {
-                    $idVotazione = $votazione->getIdVotazione();
-                    $domanda = htmlspecialchars($votazione->getDomanda());
+            for ($j = count($votazioni) - 1; $j >= 0; $j--) {
+                $votazione = $votazioni[$j];
+                $idVotazione = $votazione->getIdVotazione();
+                $domanda = htmlspecialchars($votazione->getDomanda());
 
-                    echo '<tr>';
-                    echo '<td>' . $idVotazione . '</td>';
-                    echo '<td><a href="dettagliVotazione.php?id=' . $idVotazione . '">' . $domanda . '</a></td>';
+                echo '<tr>';
+                echo '<td>' . $idVotazione . '</td>';
+                echo '<td><a href="dettagliVotazione.php?id=' . $idVotazione . '">' . $domanda . '</a></td>';
 
-                    $risposte = $gestoreDatabase->getRisposteForDomanda($idVotazione);
+                $risposte = $gestoreDatabase->getRisposteForDomanda($idVotazione);
 
-                    echo '<td>';
-                    foreach ($risposte as $risposta) {
-                        echo '<div>' . htmlspecialchars($risposta["risposta"]) . '</div>';
-                    }
-                    echo '</td>';
-
-                    echo '<td>';
-                    foreach ($risposte as $risposta) {
-                        echo '<div>' . (int)$risposta["numeroVoti"] . '</div>';
-                    }
-                    echo '</td>';
-
-                    echo '</tr>';
+                echo '<td>';
+                foreach ($risposte as $risposta) {
+                    echo '<div>' . htmlspecialchars($risposta["risposta"]) . '</div>';
                 }
+                echo '</td>';
 
-                echo '</table>';
+                echo '<td>';
+                foreach ($risposte as $risposta) {
+                    echo '<div>' . (int)$risposta["numeroVoti"] . '</div>';
+                }
+                echo '</td>';
+
+                echo '</tr>';
+            }
+
+            echo '</table>';
             } else {
-                echo '<p>Nessuna votazione disponibile per questo collegio.</p>';
+            echo '<p>Nessuna votazione disponibile per questo collegio.</p>';
             }
         }
     } else {
