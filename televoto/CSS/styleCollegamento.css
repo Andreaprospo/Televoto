@@ -1,75 +1,144 @@
-/* collegamento.css */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+/* CSS per la pagina Collegamento */
 
-body {
+/* Stile generale */
+* {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body {
+    background-color: #f0f2f5;
+    color: #1f2937;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Container principale */
 .container {
     background-color: #ffffff;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
     text-align: center;
-    max-width: 400px;
-    width: 90%;
+    margin-bottom: 20px;
 }
 
 h1 {
+    color: #1e40af;
     margin-bottom: 25px;
-    color: #333;
+    font-size: 28px;
+    position: relative;
+    padding-bottom: 15px;
 }
 
+h1:after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 3px;
+    background-color: #3b82f6;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* Input e pulsanti */
 input[type="text"] {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
+    padding: 12px 15px;
+    margin: 10px 0 20px;
+    border: 2px solid #e5e7eb;
     border-radius: 8px;
     font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+input[type="text"]::placeholder {
+    color: #9ca3af;
 }
 
 button {
-    padding: 12px 24px;
-    font-size: 16px;
-    background-color: #4a90e2;
-    color: #fff;
-    border: none;
+    background-color: #3b82f6;
+    color: white;
+    padding: 12px 20px;
     border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    width: 100%;
 }
 
 button:hover {
-    background-color: #357ABD;
+    background-color: #1e40af;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
 }
 
+button:active {
+    transform: translateY(0);
+}
 
+/* Pulsante Home */
 .home-button-wrapper {
+    margin-top: 15px;
+    width: 100%;
+    max-width: 500px;
     display: flex;
     justify-content: center;
-    margin-top: 30px;
 }
 
 .button-secondary {
-    padding: 10px 24px;
-    font-size: 16px;
-    background-color: #6c757d;
-    color: white;
-    border: none;
+    background-color: #e0e7ff;
+    color: #1e40af;
+    padding: 12px 20px;
     border-radius: 8px;
     text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: inline-block;
+    min-width: 120px;
 }
 
 .button-secondary:hover {
-    background-color: #5a6268;
+    background-color: #c7d2fe;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(224, 231, 255, 0.5);
+}
+
+.button-secondary:active {
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    input[type="text"],
+    button {
+        padding: 10px 16px;
+    }
 }

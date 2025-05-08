@@ -18,6 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Trova idVotante dal MAC
         $idVotante = $conn->getIdVotanteByMac($mac);
         if ($idVotante != null) {
+            if($conn->checkAlreadyVoted($idVotante)) {
+                echo "❌ Hai già votato!";
+                exit;
+            }
             $conn->addVoto($idVotante);
             $conn->changeNumVoti($button);
             echo "✅ Voto registrato con successo per ID $idVotante (MAC: $mac), pulsante: $button";

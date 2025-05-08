@@ -78,6 +78,9 @@ class GestoreDatabase {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+        if($row == null || empty($row)) {
+            return null; // Se non ci sono votazioni, restituisci 0
+        }
         return $row['idVotazione'];
     }
 
@@ -177,5 +180,25 @@ class GestoreDatabase {
         $row = $result->fetch_assoc();
         return $row['idCollegio']; 
     }
+
+    public function getAllCollegi() {
+        $stmt = $this->conn->prepare('SELECT * FROM collegi');
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $collegi = [];
+        while ($row = $result->fetch_assoc()) {
+            $collegi[] = $row;
+        }
+        return $collegi;
+    }
+
+    public function checkAlreadyVoted($idVotante) {
+        $stmt = $this->conn->prepare("SELECT * FROM partecipazioni WHERE IDutenteVotante = ?");
+        $stmt->bind_param("i", $idVotante);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->num_rows > 0;
+    }
+    
 }
 

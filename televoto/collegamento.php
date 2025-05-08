@@ -25,6 +25,7 @@
             try {
                 let response = await fetch(url);
                 let txt = await response.text();
+                console.log(txt);
                 let json = JSON.parse(txt);
                 if (json.status === "OK") {
                     alert("Collegamento creato con successo!");

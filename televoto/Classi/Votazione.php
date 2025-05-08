@@ -15,6 +15,9 @@
 
         static public function parse($vettoreInfo)
         {
+            if ($vettoreInfo == null) {
+                return null;
+            }
             return new Votazione(
                 $vettoreInfo["IDvotazione"],
                 $vettoreInfo["domanda"],

@@ -56,7 +56,7 @@ if (!isset($_SESSION["utenteCorrente"])) {
             <?php endif; ?>
 
             <?php if ($isPrivilegiato): ?>
-                <a href="visualizzaStorico.php" class="button">Storico Privilegiato</a>
+                <a href="storico.php" class="button">Storico Privilegiato</a>
             <?php endif; ?>
         </div>
 

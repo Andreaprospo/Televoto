@@ -27,6 +27,7 @@
             </div>
             <button>Conferma creazione votazione</button>
         </form>
+        <a href="home.php">Home</a>
     </body>
 </html>
 <script>
@@ -70,15 +71,10 @@
         let data = JSON.parse(txt);
         console.log(data);
 
-        if(data.msg === "OK"){
-            let collegio = data.collegio;
-            let collegioDiv = document.createElement("div");
-            collegioDiv.setAttribute("id", "collegio" + collegio.idCollegio);
-            collegioDiv.innerHTML = collegio.nomeCollegio + " " + collegio.idCollegio;
-            let superDiv = document.getElementById("superDiv");
-            superDiv.appendChild(collegioDiv);
+        if(data.status == "OK"){
+            alert(data.msg);
         } else {
-            alert("Errore: " + data.messaggio);
+            alert("Errore: " + data.msg);
         }
     }
 </script>
