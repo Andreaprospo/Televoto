@@ -20,20 +20,22 @@ if ($privilegio !== "P" && $privilegio !== "P+A") {
 ?>
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <title>Area Privilegiata</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="CSS/styleStorico.css">
-    <link rel="icon" type="image/png" href="icona.png">
+    <link rel="icon" type="image/png" href="CSS/icona.png">
 
 </head>
+
 <body>
 
     <h1>Area Privilegiata - Votazioni</h1>
 
     <!-- Link "Torna alla home" -->
-    <a href="home.php" id = "home">Torna alla home</a>
+    <a href="home.php" id="home">Torna alla home</a>
 
     <?php
     if (isset($_GET["messaggio"])) {
@@ -48,7 +50,7 @@ if ($privilegio !== "P" && $privilegio !== "P+A") {
         // Ciclo per ogni collegio
         foreach ($collegi as $collegio) {
             echo '<h2>ID collegio: ' . htmlspecialchars($collegio['IDcollegio']) . ' ---- Data: ' . htmlspecialchars($collegio['data']) . '</h2>';
-            
+
             // Recupera tutte le votazioni per il collegio corrente
             $votazioni = $gestoreDatabase->getAllVotazioniFromCollegio($collegio['IDcollegio']);
 
@@ -92,4 +94,5 @@ if ($privilegio !== "P" && $privilegio !== "P+A") {
     ?>
 
 </body>
+
 </html>

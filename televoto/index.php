@@ -11,8 +11,8 @@ if (isset($_GET["messaggio"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accesso Utente</title>
-    <link rel="icon" type="image/png" href="icona.png">
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="icon" type="image/png" href="CSS/icona.png">
+    <link rel="stylesheet" href="CSS/styleIndex.css">
 </head>
 <body>
     <div class="container " style="min-height: 100vh; align-items: center; justify-content: center; display: flex;">

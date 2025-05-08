@@ -18,9 +18,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="CSS/styleCreazioneVotazione.css">
-        <link rel="icon" type="image/png" href="icona.png">
+        <link rel="icon" type="image/png" href="CSS/icona.png">
 
-        <title>Document</title>
+        <title>Creazione Votazione</title>
     </head>
     <body>
         <button onclick="apriNuovoCollegio()">Crea nuovo collegio</button>
